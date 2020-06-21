@@ -3,6 +3,7 @@
  * Most of them use imagemagick's "convert", but not all.
  */
 const { spawn } = require( './cp' );
+const { replaceExtension } = require( './fs' );
 
 /**
  * Determine whether an image file is greyscale.
