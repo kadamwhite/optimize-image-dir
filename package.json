@@ -1,0 +1,16 @@
+{
+  "name": "optimize-image-dir",
+  "version": "1.0.0",
+  "description": "Recursively optimize a directory of pngs and jpgs using imagemagick, jpegoptim and pngquant",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "K. Adam White",
+  "license": "MIT",
+  "devDependencies": {
+    "minimist": "^1.2.5",
+    "progress": "^2.0.3"
+  }
+}
