@@ -44,8 +44,10 @@ const convertToGreyscale = async ( absFilePath ) => {
 			'-alpha', 'off',
 			'-interlace', 'none',
 			'-colors', '17',
+			// Reduce color depth in highs and lows for better text contrast.
 			'-white-threshold', '95%',
 			'-black-threshold', '10%',
+			// Lighten the image for better display on Kindle screens.
 			'-sigmoidal-contrast', '3x10%', // This could be refined further.
 			'-gamma', '1.1', // Ditto. This *and* sigmoidal contrast...? Bad?
 			tmpFile,
