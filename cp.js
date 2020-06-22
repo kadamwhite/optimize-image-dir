@@ -14,13 +14,14 @@ const spawn = ( command, args ) => {
 		const spawnedProcess = cp.spawn( command, args );
 
 		spawnedProcess.stdout.on( 'data', ( message ) => {
-				output.push( message.toString() );
+			output.push( message.toString() );
 		} );
 
 		spawnedProcess.on( 'error', err => reject( err ) );
 
 		spawnedProcess.on( 'close', ( code, signal ) => {
 			if ( code ) {
+				console.error( code, signal );
 				reject();
 				return;
 			}

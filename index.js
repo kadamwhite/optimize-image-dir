@@ -38,22 +38,23 @@ async function recursivelyProcessDirectory( absDirPath, opts = {} ) {
 
 	onStart( files.length );
 
-	try {
-		for ( let i = 0; i < files.length; i++ ) {
-			const file = files[i];
-			const absFilePath = resolve( absDirPath, file );
-			if ( isDirectory( absFilePath ) ) {
-				await recursivelyProcessDirectory( absFilePath, {
-					onTick: onChildTick,
-					lighten,
-				} );
-			} else {
+	for ( let i = 0; i < files.length; i++ ) {
+		const file = files[i];
+		const absFilePath = resolve( absDirPath, file );
+		if ( isDirectory( absFilePath ) ) {
+			await recursivelyProcessDirectory( absFilePath, {
+				onTick: onChildTick,
+				lighten,
+			} );
+		} else {
+			try {
 				await maybeProcessImage( absFilePath );
+			} catch ( e ) {
+				console.error( `Error processing ${ absFilePath }` )
+				throw e;
 			}
-			onTick( i, files.length );
 		}
-	} catch ( e ) {
-		throw e;
+		onTick( i, files.length );
 	}
 }
 
