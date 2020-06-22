@@ -32,7 +32,8 @@ async function isBW( absFilePath ) {
  * @async
  * @param {String} absFilePath Absolute file system path to an image.
  */
-const convertToGreyscale = async ( absFilePath ) => {
+const convertToGreyscale = async ( absFilePath, opts = {} ) => {
+	const { lighten } = opts;
 	const isPNG = /\.png/i.test( absFilePath );
 
 	const tmpFile = replaceExtension( absFilePath, '.tmp.png' );
@@ -48,9 +49,11 @@ const convertToGreyscale = async ( absFilePath ) => {
 		// Reduce color depth in highs and lows for better text contrast.
 		'-white-threshold', '95%',
 		'-black-threshold', '10%',
-		// Lighten the image for better display on Kindle screens.
-		'-sigmoidal-contrast', '3x10%', // This could be refined further.
-		'-gamma', '1.1', // Ditto. This *and* sigmoidal contrast...? Bad?
+		...( lighten ? [
+			// Lighten the image for better display on Kindle screens.
+			'-sigmoidal-contrast', '3x10%', // This could be refined further.
+			'-gamma', '1.1', // Ditto. This *and* sigmoidal contrast...? Bad?
+		] : [] ),
 		tmpFile,
 	] );
 
@@ -112,11 +115,11 @@ const convertToColor = async ( absFilePath ) => {
  * @async
  * @param {String} absFilePath Absolute file system path to an image.
  */
-const optimize = async ( absFilePath ) => {
+const optimize = async ( absFilePath, opts = {} ) => {
 	if ( await isBW( absFilePath ) ) {
-		await convertToGreyscale( absFilePath );
+		await convertToGreyscale( absFilePath, opts );
 	} else {
-		await convertToColor( absFilePath );
+		await convertToColor( absFilePath, opts );
 	}
 };
 

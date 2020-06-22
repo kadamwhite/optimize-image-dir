@@ -31,6 +31,7 @@ async function recursivelyProcessDirectory( absDirPath, opts = {} ) {
 		onStart = noop,
 		onTick = noop,
 		onChildTick = noop,
+		lighten,
 	} = opts;
 
 	const files = await ls( absDirPath );
@@ -44,6 +45,7 @@ async function recursivelyProcessDirectory( absDirPath, opts = {} ) {
 			if ( isDirectory( absFilePath ) ) {
 				await recursivelyProcessDirectory( absFilePath, {
 					onTick: onChildTick,
+					lighten,
 				} );
 			} else {
 				await maybeProcessImage( absFilePath );

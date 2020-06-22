@@ -53,6 +53,7 @@ const baseDir = resolve( argv._[0] );
 			onStart,
 			onTick,
 			onChildTick,
+			lighten: argv.lighten || false,
 		} );
 	} catch ( e ) {
 		console.error( "Error!:", e );
