@@ -1,6 +1,6 @@
 {
   "name": "optimize-image-dir",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Recursively optimize a directory of pngs and jpgs using imagemagick, jpegoptim and pngquant",
 	"main": "index.js",
 	"bin": {
