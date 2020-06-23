@@ -54,6 +54,8 @@ const baseDir = resolve( argv._[0] );
 			onTick,
 			onChildTick,
 			lighten: argv.lighten || false,
+			// Permit not outputting JPGs
+			colorPNG: argv['color-png'] || false,
 		} );
 	} catch ( e ) {
 		console.error( "Error!:", e );

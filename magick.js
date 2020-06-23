@@ -109,6 +109,42 @@ const convertToColor = async ( absFilePath ) => {
 };
 
 /**
+ * Given an image file path, convert that image to an optimized color png file.
+ *
+ * @async
+ * @param {String} absFilePath Absolute file system path to an image.
+ */
+const convertToColorPNG = async ( absFilePath ) => {
+	const isPNG = /\.png/i.test( absFilePath );
+
+	const tmpFile = replaceExtension( absFilePath, '.tmp.png' );
+	const optimizedFile = replaceExtension( absFilePath, '.tmp.opt.png' );
+	const targetFile = replaceExtension( absFilePath, '.png' );
+
+	// https://imagemagick.org/script/command-line-options.php
+	await spawn( 'convert', [
+		absFilePath,
+		'-alpha', 'off',
+		'-interlace', 'none',
+		tmpFile,
+	] );
+
+	// https://pngquant.org/
+	await spawn( 'pngquant', [
+		'--ext', '.opt.png',
+		'--speed', '1',
+		tmpFile,
+	] );
+
+	// Clean up.
+	if ( ! isPNG ) {
+		await spawn( 'rm', [ absFilePath ] );
+	}
+	await spawn( 'rm', [ tmpFile ] );
+	await spawn( 'mv', [ optimizedFile, targetFile ] );
+};
+
+/**
  * Given an image file path, determine if that image is greyscale or color and
  * convert it to the appropriate format, optimizing in the process.
  *
@@ -119,7 +155,11 @@ const optimize = async ( absFilePath, opts = {} ) => {
 	if ( await isBW( absFilePath ) ) {
 		await convertToGreyscale( absFilePath, opts );
 	} else {
-		await convertToColor( absFilePath, opts );
+		if ( opts.colorPNG ) {
+			await convertToColorPNG( absFilePath, opts );
+		} else {
+			await convertToColor( absFilePath, opts );
+		}
 	}
 };
 
