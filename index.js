@@ -31,7 +31,7 @@ async function recursivelyProcessDirectory( absDirPath, opts = {} ) {
 		onStart = noop,
 		onTick = noop,
 		onChildTick = noop,
-		...flags,
+		...flags
 	} = opts;
 
 	const files = await ls( absDirPath );
