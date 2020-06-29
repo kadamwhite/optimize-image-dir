@@ -102,7 +102,7 @@ const convertToColor = async ( absFilePath ) => {
 	] );
 
 	// Clean up.
-	if ( ! isJPG ) {
+	if ( absFilePath !== targetFile ) {
 		await spawn( 'rm', [ absFilePath ] );
 	}
 	await spawn( 'mv', [ tmpFile, targetFile ] );
@@ -137,7 +137,7 @@ const convertToColorPNG = async ( absFilePath ) => {
 	] );
 
 	// Clean up.
-	if ( ! isPNG ) {
+	if ( absFilePath !== targetFile ) {
 		await spawn( 'rm', [ absFilePath ] );
 	}
 	await spawn( 'rm', [ tmpFile ] );
